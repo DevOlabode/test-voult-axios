@@ -11,38 +11,62 @@ app.get('/', (req, res) => {
   res.json('Hello World!');
 });
 
-app.post('/register', async (req, res) => {
+// app.post('/register', async (req, res) => {
+//   try {
+//     const response = await axios.post(
+//       'https://voult.dev/api/register',
+//       {
+//         fullName: "Samuel Olabode",
+//         email: "solabode499@gmail.com",
+//         password: "Sammy**34J123%"
+//       },
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'x-client-id': process.env.CLIENT_ID,
+//           'x-client-secret': process.env.CLIENT_SECRET
+//         }
+//       }
+//     );
+
+//     console.log(response.data);
+
+//     res.json({
+//       success: true,
+//       data: response.data
+//     });
+
+//   } catch (error) {
+//     console.error(error.message);
+
+//     res.status(error.response?.status || 500).json({
+//       success: false,
+//       message: error.response?.data || "Something went wrong"
+//     });
+//   }
+// });
+
+
+app.post('/register', async(req, res) =>{
   try {
     const response = await axios.post(
       'https://voult.dev/api/register',
       {
-        fullName: "Samuel Olabode",
-        email: "solabode499@gmail.com",
-        password: "Sammy**34J123%"
+        fullName : "Samuel Olabode",
+        email : "Solabode499@gmail.com",
+        password : "Sammy**34J123%"
       },
       {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-client-id': process.env.CLIENT_ID,
-          'x-client-secret': process.env.CLIENT_SECRET
-        }
+      headers : {
+        'Content-Type': 'application/json',
+        'x-client-id': process.env.CLIENT_ID,
+        'x-client-secret': process.env.CLIENT_SECRET
       }
-    );
-
-    console.log(response.data);
-
-    res.json({
-      success: true,
-      data: response.data
-    });
-
-  } catch (error) {
-    console.error(error.message);
-
-    res.status(error.response?.status || 500).json({
-      success: false,
-      message: error.response?.data || "Something went wrong"
-    });
+    }
+    )
+  }catch (err){
+    console.error(err);
+    res.json({"error message: " : err.message});
   }
 });
 

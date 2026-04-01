@@ -46,37 +46,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
-// app.post('/register', async(req, res) =>{
-//   try {
-//     const response = await axios.post(
-//       'https://voult.dev/api/register',
-//       {
-//         fullName: "Samuel Olabode",
-//         email: "solabode499@gmail.com",
-//         password: "Sammy**34J123%"
-//       },
-//       {
-//       headers : {
-//         'Content-Type': 'application/json',
-//         'x-client-id': process.env.CLIENT_ID,
-//         'x-client-secret': process.env.CLIENT_SECRET
-//         }
-//       }
-//     );
-
-//     console.log(response.data);
-//     res.json({
-//       success : true,
-//       data : response.data
-//     });
-
-//   }catch (err){
-//     console.error(err.message);
-//     res.json({"error message: " : err.message});
-//   }
-// });
-
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

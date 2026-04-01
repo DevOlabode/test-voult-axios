@@ -52,18 +52,16 @@ app.post('/register', async(req, res) =>{
     const response = await axios.post(
       'https://voult.dev/api/register',
       {
-        fullName : "Samuel Olabode",
-        email : "Solabode499@gmail.com",
-        password : "Sammy**34J123%"
-      },
-      {
       headers : {
         'Content-Type': 'application/json',
         'x-client-id': process.env.CLIENT_ID,
         'x-client-secret': process.env.CLIENT_SECRET
+        }
       }
-    }
-    )
+    );
+
+    console.log(response);
+
   }catch (err){
     console.error(err);
     res.json({"error message: " : err.message});

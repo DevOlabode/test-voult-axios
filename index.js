@@ -13,8 +13,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  console.log(process.env.CLIENT_ID);
-  console.log(process.env.CLIENT_SECRET);
   try {
     const response = await axios.post(
       'https://voult.dev/api/auth/register',

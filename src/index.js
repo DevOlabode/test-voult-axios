@@ -83,7 +83,6 @@ app.get('/profile', async(req, res)=>{
         headers: {
           'Content-Type': 'application/json',
           'x-client-token': `Bearer ${process.env.ACCESS_TOKEN}`,
-          'x-client-refresh-token' : `Bearer ${process.env.REFRESH_TOKEN}`,
           'x-client-id': `${process.env.CLIENT_ID}`,
           'x-client-secret': `${process.env.CLIENT_SECRET}`,
         }

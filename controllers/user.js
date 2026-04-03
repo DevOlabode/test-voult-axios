@@ -57,4 +57,4 @@ module.exports.editProfile = async(req, res) =>{
         message: error.response?.data || "Something went wrong"
       });
     }
-};
+  }

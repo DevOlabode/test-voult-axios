@@ -1,12 +1,16 @@
 const axios = require('axios');
+const TokenManager = require('../utils/tokenManager');
+const tokenManager = new TokenManager();
 
 module.exports.getProfile = async(req, res)=>{
     try {
+      const currentToken = tokenManager.getCurrentToken();
+
       const response = await axios.get(
-        'https://voult.dev/api/user/me',
+        `${process.env.API_URL}/user/me`,
         {
           headers: {
-            'X-Client-Token': `Bearer ${process.env.ACCESS_TOKEN}`
+            'X-Client-Token': `Bearer ${currentToken}`
           }
         }
       );
@@ -30,15 +34,16 @@ module.exports.getProfile = async(req, res)=>{
 
 module.exports.editProfile = async(req, res) =>{
     try {
+      const currentToken = tokenManager.getCurrentToken();
       const response = await axios.patch(
-        'https://voult.dev/api/user/me',
+        `${process.env.API_URL}/user/me`,
         req.body,
         {
           headers : {
             'Content-Type': 'application/json',
             'x-client-id': `${process.env.CLIENT_ID}`,
             'x-client-secret': `${process.env.CLIENT_SECRET}`,
-            'X-Client-Token': `Bearer ${process.env.ACCESS_TOKEN}`
+            'X-Client-Token': `Bearer ${currentToken}`
           }
         }
       );

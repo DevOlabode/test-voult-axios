@@ -73,3 +73,5 @@ class TokenManager {
       fs.writeFileSync(envPath, content);
     }
   }
+
+  module.exports = TokenManager

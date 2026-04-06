@@ -1,5 +1,5 @@
 const axios = require('axios');
-const TokenManager = require('./utils/tokenManager');
+const TokenManager = require('../utils/tokenManager');
 const tokenManager = new TokenManager();
 
 module.exports.register = async (req, res) => {

@@ -35,7 +35,7 @@ module.exports.register = async (req, res) => {
     console.log(req.body);
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/auth/login',
+        `${process.env.API_URL}/auth/login`,
         req.body,
         {
           headers : {

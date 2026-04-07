@@ -66,29 +66,14 @@ class TokenManager {
     // }    
 
     async getValidAccessToken() {
-      console.log('=== TOKEN REFRESH DEBUG ===');
-      console.log('Current accessToken:', this.accessToken ? 'EXISTS' : 'NULL');
-      console.log('Current refreshToken:', this.refreshToken ? 'EXISTS' : 'NULL');
-      console.log('API_URL:', process.env.API_URL);
-      console.log('CLIENT_ID:', process.env.CLIENT_ID ? 'SET' : 'NOT SET');
-      console.log('Token expiry:', this.tokenExpiry);
-      console.log('Is expired?', this.tokenExpiry && this.tokenExpiry <= Date.now() + 60000);
-      console.log('=========================');
-    
       // Return cached token if still valid (with 1-minute buffer)
       if (this.accessToken && this.tokenExpiry > Date.now() + 60000) {
-        console.log('Using cached token');
         return this.accessToken;
       }
     
-      console.log('Need to refresh token...');
-      
       const axios = require('axios');
       
       try {
-        console.log('Making request to:', `${process.env.API_URL}/session/refresh`);
-        console.log('With refreshToken:', this.refreshToken ? this.refreshToken.substring(0, 20) + '...' : 'NULL');
-        
         const response = await axios.post(
           `${process.env.API_URL}/session/refresh`,
           { refreshToken: this.refreshToken },
@@ -96,12 +81,13 @@ class TokenManager {
             headers: {
               'Content-Type': 'application/json',
               'x-client-id': process.env.CLIENT_ID,
-              'x-client-secret': process.env.CLIENT_SECRET
+              'x-client-secret': process.env.CLIENT_SECRET,
+              // ✅ Send current token (even if expired) for authentication
+              'x-client-token': this.accessToken ? `Bearer ${this.accessToken}` : ''
             }
           }
         );
     
-        console.log('Refresh response:', response.status);
         const { accessToken, refreshToken } = response.data;
         
         this.setTokens(accessToken, refreshToken);
@@ -109,17 +95,11 @@ class TokenManager {
         return accessToken;
         
       } catch (error) {
-        console.error('Refresh failed!');
-        console.error('Error:', error.message);
-        if (error.response) {
-          console.error('Response status:', error.response.status);
-          console.error('Response data:', JSON.stringify(error.response.data, null, 2));
-        } else if (error.request) {
-          console.error('No response received:', error.request);
-        }
+        console.error('Token refresh failed:', error.response?.data || error.message);
         throw new Error('Token refresh failed');
       }
     }
+    
     
     updateEnvFile(key, value) {
       const fs = require('fs');

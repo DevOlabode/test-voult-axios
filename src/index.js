@@ -28,12 +28,23 @@ app.use(express.json());
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.set('views', path.join(__dirname, '../views'));
+app.set('view engine', 'ejs');
+
+app.engine('ejs', ejsMate);
+
+app.use(express.static(path.join(__dirname, '../public')));
+
 app.use('/', manualAuthRoutes);
 app.use('/', userRoutes);
 app.use('/', googleOauthRoutes);
 
 app.get('/', (req, res) => {
-  res.json('Hello World!');
+  res.render('login');
+});
+
+app.use((req, res, next) => {
+  next(new ExpressError('Page Not Found', 404));
 });
 
 app.listen(port, () => {

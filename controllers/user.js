@@ -1,6 +1,5 @@
 const axios = require('axios');
-const TokenManager = require('../utils/tokenManager');
-const tokenManager = new TokenManager();
+const tokenManager = require('../utils/tokenManager');
 
 module.exports.getProfile = async(req, res)=>{
     try {

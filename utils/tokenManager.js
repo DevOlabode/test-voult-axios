@@ -1,13 +1,23 @@
-// tokenManager.js
+// utils/tokenManager.js
+require('dotenv').config();
+const axios = require('axios');
+const fs = require('fs');
+
 class TokenManager {
   constructor() {
+    // Only initialize if not already initialized
+    if (TokenManager.instance) {
+      return TokenManager.instance;
+    }
+    
     this.accessToken = null;
     this.refreshToken = process.env.REFRESH_TOKEN;
     this.tokenExpiry = null;
+    TokenManager.instance = this;
   }
 
-  // Get current token WITHOUT auto-refresh (for logout)
-  getCurrentToken() {
+   // Get current token WITHOUT auto-refresh (for logout)
+   getCurrentToken() {
     return this.accessToken;
   }
 
@@ -120,9 +130,7 @@ class TokenManager {
         throw new Error('Token refresh failed');
       }
     }
-    
-    
-    
+
     updateEnvFile(key, value) {
       const fs = require('fs');
       const envPath = '.env';
@@ -133,6 +141,8 @@ class TokenManager {
       );
       fs.writeFileSync(envPath, content);
     }
-  }
 
-  module.exports = TokenManager
+}
+
+// Export a singleton instance
+module.exports = new TokenManager();

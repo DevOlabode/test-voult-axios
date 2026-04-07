@@ -71,7 +71,8 @@ module.exports.register = async (req, res) => {
   
       res.status(error.response?.status || 500).json({
         success: false,
-        message: error.response?.data?.message || "Something went wrong"
+        // message: error.response?.data?.message
+        message : error.message
       });
     }
   };

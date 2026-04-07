@@ -6,6 +6,16 @@
     <title>Login Into This Server</title>
 </head>
 <body>
+    
     <h3>Logging In</h3>
+    <form action="/login" method="post">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" required placeholder="Enter your email">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required placeholder="Enter your password">
+
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>

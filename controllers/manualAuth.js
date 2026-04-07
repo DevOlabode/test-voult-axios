@@ -41,6 +41,7 @@ module.exports.register = async (req, res) => {
 
   module.exports.login = async(req, res) =>{
     try {
+      console.log(req.body);
       const tokenManager = req.app.get('tokenManager');
       const response = await axios.post(
         `${process.env.API_URL}/auth/login`,

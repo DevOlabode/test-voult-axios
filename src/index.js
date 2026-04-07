@@ -28,6 +28,8 @@ app.use(express.json());
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(express.urlencoded());
+
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 

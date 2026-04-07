@@ -16,9 +16,7 @@ module.exports.getProfile = async(req, res)=>{
           }
         }
       );
-      
-      console.log(response.data);
-  
+        
       res.json({
         success: true,
         data: response.data
@@ -50,9 +48,7 @@ module.exports.editProfile = async(req, res) =>{
           }
         }
       );
-  
-      console.log(response.data);
-  
+        
       res.json({
         success: true,
         data: response.data

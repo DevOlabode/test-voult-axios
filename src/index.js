@@ -52,6 +52,8 @@ app.use('/', userRoutes);
 app.use('/', googleOauthRoutes);
 
 app.get('/', (req, res) => {
+  console.log(req.user);
+
   res.render('home');
 });
 

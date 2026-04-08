@@ -64,6 +64,17 @@ module.exports.register = async (req, res) => {
         response.data.refreshToken
       );
 
+      const profileResponse = await axios.get(
+        `${process.env.API_URL}/user/me`,
+        {
+          headers: {
+            'x-client-token': `Bearer ${response.data.accessToken}`
+          }
+        }
+      );
+
+      req.user = profileResponse;
+
       // res.json({
       //   success: true,
       //   data: response.data

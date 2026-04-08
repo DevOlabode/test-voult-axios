@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const authMiddleware = require('../middleware/auth');
-
-router.use(authMiddleware);
-
 const controller = require('../controllers/manualAuth');
 
 router.get('/register', controller.registerForm);

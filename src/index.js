@@ -47,15 +47,46 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', manualAuthRoutes);
-app.use('/', userRoutes);
-app.use('/', googleOauthRoutes);
+app.use((req, res, next) => {
+  try {
+    const tokenManager = req.app.get('tokenManager');
+    const accessToken = tokenManager.getCurrentToken();
+    
+    if (accessToken) {
+      const jwt = require('jsonwebtoken');
+      const payload = jwt.decode(accessToken);
+      
+      console.log(payload);
+      
+      if (payload) {
+        req.user = {
+          id: payload.sub,
+          email: payload.email,
+          appId: payload.appId || payload.app
+        };
+      }
+    }
+  } catch (error) {
+    console.error(error)
+  }
+  
+  next();
+});
+
+app.get('/', (req, res) => {
+  console.log(req.user); 
+  res.render('home', { user: req.user });
+});
 
 app.get('/', (req, res) => {
   console.log(req.user);
 
   res.render('home');
 });
+
+app.use('/', manualAuthRoutes);
+app.use('/', userRoutes);
+app.use('/', googleOauthRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

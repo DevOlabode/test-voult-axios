@@ -12,6 +12,6 @@ router.get('/login', redirectIfLoggedIn, controller.loginForm);
 
 router.post('/login', controller.login);
 
-router.get('/logout', controller.logout);
+router.post('/logout', controller.logout);
 
 module.exports = router;

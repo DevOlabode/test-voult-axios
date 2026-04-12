@@ -9,6 +9,8 @@ const controller = require('../controllers/user');
 
 router.get('/profile', controller.getProfile);
 
-router.patch('/profile', controller.editProfile);
+router.get('/update-profile', controller.updateProfileForm);
+
+router.post('/profile', controller.editProfile);
 
 module.exports = router;

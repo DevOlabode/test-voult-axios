@@ -29,6 +29,10 @@ module.exports.getProfile = async(req, res)=>{
     }
 };
 
+module.exports.updateProfileForm = async(req, res)=>{
+  res.render('user/editProfile');
+}
+
 module.exports.editProfile = async(req, res) =>{
     try {
       const tokenManager = req.app.get('tokenManager');

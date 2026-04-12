@@ -18,8 +18,6 @@ const sessionConfig = require('../config/session');
 
 const manualAuthRoutes = require('../routes/manualAuth');
 const userRoutes  = require('../routes/user');
-const googleOauthRoutes = require('../routes/googleOauth');
-const configRoutes = require('../routes/config');
 
 const tokenManager = require('../utils/tokenManager');
 
@@ -60,8 +58,6 @@ app.get('/dashboard', (req, res) => {
 
 app.use('/', manualAuthRoutes);
 app.use('/', userRoutes);
-app.use('/', googleOauthRoutes);
-app.use('/', configRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

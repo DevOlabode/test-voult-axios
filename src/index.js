@@ -18,6 +18,7 @@ const sessionConfig = require('../config/session');
 
 const manualAuthRoutes = require('../routes/manualAuth');
 const userRoutes  = require('../routes/user');
+const googleRoutes = require('../routes/google');
 
 const tokenManager = require('../utils/tokenManager');
 
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Home Route
 app.get('/', (req, res) => {
   console.log('Current user:', req.user); 
   res.render('home', { user: req.user });
@@ -58,6 +60,7 @@ app.get('/dashboard', (req, res) => {
 
 app.use('/', manualAuthRoutes);
 app.use('/', userRoutes);
+app.use('/', googleRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

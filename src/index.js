@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 
 // Home Route
 app.get('/', (req, res) => {
+  console.log(req.user);
   res.render('home', { user: res.locals.currentUser });
 });
 

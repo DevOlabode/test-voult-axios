@@ -133,9 +133,7 @@ module.exports.handleCallback = async (req, res) => {
         }
       }
     );
-
-    console.log(voultRes.data);
-
+    
     tokenManager.setTokens(voultRes.data.accessToken, voultRes.data.refreshToken);
 
     const profileRes = await axios.get(`${process.env.API_URL}/user/me`, {

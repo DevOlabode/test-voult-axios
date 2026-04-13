@@ -49,7 +49,10 @@ app.use((req, res, next) => {
 
 // Home Route
 app.get('/', async (req, res) => {
-  console.log(req.endUser);
+  console.log("EndUser", await req.endUser);
+  console.log("User", await req.user);
+  console.log("REQ", await req);
+  console.log("RES", await res);
   res.render('home', { user: req.user });
 });
 

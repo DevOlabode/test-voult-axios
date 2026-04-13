@@ -94,8 +94,9 @@ module.exports.register = async (req, res) => {
   };
 
 module.exports.logout = async(req, res)=>{
+  const tokenManager = req.app.get('tokenManager');
+
   try {
-    const tokenManager = req.app.get('tokenManager');
     const currentToken = tokenManager.getCurrentToken();
     
     if (!currentToken) {

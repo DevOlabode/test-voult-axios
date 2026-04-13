@@ -48,7 +48,8 @@ app.use((req, res, next) => {
 });
 
 // Home Route
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  console.log(req.user);
   res.render('home', { user: req.user });
 });
 

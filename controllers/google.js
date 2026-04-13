@@ -134,7 +134,7 @@ module.exports.handleCallback = async (req, res) => {
       }
     );
 
-    console.log(voultRes);
+    console.log(voultRes.data);
 
     tokenManager.setTokens(voultRes.data.accessToken, voultRes.data.refreshToken);
 

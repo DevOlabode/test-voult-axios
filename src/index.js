@@ -60,7 +60,7 @@ app.get('/dashboard', (req, res) => {
 
 app.use('/', manualAuthRoutes);
 app.use('/', userRoutes);
-app.use('/', googleRoutes);
+app.use('/google', googleRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

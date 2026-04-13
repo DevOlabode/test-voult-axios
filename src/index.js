@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const axios = require('axios');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,8 +10,6 @@ const ejsMate = require('ejs-mate');
 
 const session = require('express-session');
 const flash = require('connect-flash');
-
-const ExpressError = require('../utils/expressError');
 
 const sessionConfig = require('../config/session');
 
@@ -40,20 +37,19 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use((req, res, next) => {
+  if (req.session && req.session.voultUser) {
+    req.user = req.session.voultUser;
+  }
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.info = req.flash('info');
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.session && req.session.voultUser ? req.session.voultUser : null;
   next();
 });
 
 // Home Route
-app.get('/', async (req, res) => {
-  console.log("EndUser", await req.endUser);
-  console.log("User", await req.user);
-  console.log("REQ", await req);
-  console.log("RES", await res);
-  res.render('home', { user: req.user });
+app.get('/', (req, res) => {
+  res.render('home', { user: res.locals.currentUser });
 });
 
 // Dashboard route

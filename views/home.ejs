@@ -1,6 +1,12 @@
 <% layout('layout/boilerplate.ejs') %>
 <h3>Home</h3>
 
+<% if (user && user.email) { %>
+  <p class="text-muted">Signed in as <strong><%= user.email %></strong></p>
+<% } else { %>
+  <p class="text-muted">Not signed in. <a href="/login">Log in</a></p>
+<% } %>
+
 <form action="/logout" method="post">
     <button type="submit" class="btn btn-outline-warning">Logout</button>
 </form>

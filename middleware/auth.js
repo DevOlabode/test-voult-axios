@@ -1,14 +1,16 @@
-// middleware/auth.js
+// middleware/auth.js — protect JSON/API-style routes that call Voult with a token
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
   try {
-    // Get the TokenManager instance from app
+    if (req.session && req.session.voultUser) {
+      req.user = req.session.voultUser;
+      return next();
+    }
+
     const tokenManager = req.app.get('tokenManager');
-    
-    // Get current access token
     const accessToken = tokenManager.getCurrentToken();
-    
+
     if (!accessToken) {
       return res.status(401).json({
         success: false,
@@ -16,9 +18,8 @@ module.exports = (req, res, next) => {
       });
     }
 
-    // Decode JWT to get user info (we're not verifying since we got it from our own TokenManager)
     const payload = jwt.decode(accessToken);
-    
+
     if (!payload) {
       return res.status(401).json({
         success: false,
@@ -26,16 +27,13 @@ module.exports = (req, res, next) => {
       });
     }
 
-    // Set req.user with decoded user info
     req.user = {
       id: payload.sub,
       email: payload.email,
       appId: payload.appId || payload.app
     };
 
-    // Continue to next middleware/route
     next();
-    
   } catch (error) {
     console.error('Auth middleware error:', error);
     res.status(401).json({

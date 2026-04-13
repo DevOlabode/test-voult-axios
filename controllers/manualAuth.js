@@ -72,12 +72,12 @@ module.exports.register = async (req, res) => {
         }
       );
 
-      req.user = profileResponse;
+      // Persist end-user profile across requests (HTTP is stateless; req.user alone does not survive redirect)
+      req.session.voultUser = profileResponse.data;
 
-      // res.json({
-      //   success: true,
-      //   data: response.data
-      // });
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => (err ? reject(err) : resolve()));
+      });
 
       req.flash('success', response.data.message);
       res.redirect('/');
@@ -99,10 +99,12 @@ module.exports.logout = async(req, res)=>{
     const currentToken = tokenManager.getCurrentToken();
     
     if (!currentToken) {
-      return res.status(401).json({
-        success: false,
-        message: 'No active session to logout'
+      delete req.session.voultUser;
+      await new Promise((resolve, reject) => {
+        req.session.save((err) => (err ? reject(err) : resolve()));
       });
+      req.flash('info', 'No active session to log out');
+      return res.redirect('/login');
     }
     
     const response = await axios.post(
@@ -118,28 +120,31 @@ module.exports.logout = async(req, res)=>{
       }
     );
 
-    // Clear tokens after successful logout
     tokenManager.clearTokens();
+    delete req.session.voultUser;
 
-    res.json({
-      success: true,
-      data: response.data
+    await new Promise((resolve, reject) => {
+      req.session.save((err) => (err ? reject(err) : resolve()));
     });
 
+    req.flash('success', response.data?.message || 'Logged out successfully');
+    return res.redirect('/login');
+
   } catch(error){
-    // Clear tokens even if logout fails
     tokenManager.clearTokens();
-    
-    // Safe error handling - error.response might be undefined
+    delete req.session.voultUser;
+
+    await new Promise((resolve, reject) => {
+      req.session.save((err) => (err ? reject(err) : resolve()));
+    });
+
     const status = error.response?.status || 500;
     const message = error.response?.data?.message 
                  || error.response?.data?.error 
                  || error.message 
                  || "Logout failed";
-    
-    res.status(status).json({
-      success: false,
-      message
-    });
+
+    req.flash('error', message);
+    return res.redirect(status >= 400 && status < 500 ? '/login' : '/');
   }
 };

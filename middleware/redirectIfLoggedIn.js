@@ -1,27 +1,9 @@
-const axios = require('axios');
-
-module.exports = async (req, res, next) => {
-  try {
-    const tokenManager = req.app.get('tokenManager');
-    const accessToken = tokenManager.getCurrentToken();
-    
-    if (!accessToken) {
-      return next(); 
-    }
-
-    const response = await axios.get(
-      `${process.env.API_URL}/user/me`,
-      {
-        headers: {
-          'x-client-token': `Bearer ${accessToken}`
-        }
-      }
-    );
-
-    req.user = response.data;
-    return res.redirect('/'); 
-    
-  } catch (error) {
-    return next();
+/**
+ * If the user already has a Voult session (profile stored), skip login/register.
+ */
+module.exports = (req, res, next) => {
+  if (req.session && req.session.voultUser) {
+    return res.redirect('/');
   }
+  next();
 };

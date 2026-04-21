@@ -16,6 +16,7 @@ const sessionConfig = require('../config/session');
 const manualAuthRoutes = require('../routes/manualAuth');
 const userRoutes  = require('../routes/user');
 const googleRoutes = require('../routes/google');
+const githubRoutes = require('../routes/github');
 
 const tokenManager = require('../utils/tokenManager');
 
@@ -61,6 +62,7 @@ app.get('/dashboard', (req, res) => {
 app.use('/', manualAuthRoutes);
 app.use('/', userRoutes);
 app.use('/google', googleRoutes);
+app.use('/github', githubRoutes);
 app.use('/oauth/google', googleRoutes);
 
 app.listen(port, () => {

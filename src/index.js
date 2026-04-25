@@ -17,6 +17,7 @@ const manualAuthRoutes = require('../routes/manualAuth');
 const userRoutes  = require('../routes/user');
 const googleRoutes = require('../routes/google');
 const githubRoutes = require('../routes/github');
+const myGoogleRoutes = require('../routes/myGoogle');
 
 const tokenManager = require('../utils/tokenManager');
 
@@ -64,6 +65,7 @@ app.use('/', userRoutes);
 app.use('/google', googleRoutes);
 app.use('/github', githubRoutes);
 app.use('/oauth/google', googleRoutes);
+app.use('/oauth/google', myGoogleRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

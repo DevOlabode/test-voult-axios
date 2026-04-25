@@ -22,12 +22,6 @@ module.exports.register = async (req, res) => {
 
       req.flash('success', response.data.message);
       res.redirect('/')
-  
-      // res.json({
-      //   success: true,
-      //   data: response.data
-      // });
-  
     } catch (error) {
       console.error(error.response.data);
   
